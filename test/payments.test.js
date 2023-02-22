@@ -26,22 +26,26 @@ describe("Payments", function(){
     })
 // stugum enq pay funkcian
     it("should be possible to send funds", async function(){
+        const sum = 100
+        const msg = "hello Sergey"
         //const tx= await payments.pay("hello Sergey", { value: 100}) //ugharkum enq acc1-ic by default tx u massage 100wei-ov
-        const tx= await payments.connect(acc2).pay("hello Sergey", { value: 100}) //ugharkum enq acc2-ic qani vor arajiny contractna deploy arel
+        const tx= await payments.connect(acc2).pay(msg, { value: sum}) //ugharkum enq acc2-ic qani vor arajiny contractna deploy arel
         
 
         await expect(() => tx)
-        .to.changeEtherBalances([acc2,payments],[-100,100]) // waffle tuyl atalis senc tst anel u stugel mi qani acc- popoxutyunnery takiny aveli parzna
+        .to.changeEtherBalances([acc2,payments],[-sum, sum]) // waffle tuyl atalis senc tst anel u stugel mi qani acc- popoxutyunnery takiny aveli parzna
 
         /*await expect(() => tx)
         .to.changeEtherBalance(acc2,-100) // waffle tuyl atalis senc tst anel u stugel ardyoq acc2-ic 100 wei pakasec
         */
 
         await tx.wait() //spasum enq katarvi
-
-        const balance = await payments.currentBalance() // stugum enq deployed contr-i curent balancy
-        console.log(balance)
-
+        //stugum enq konkret palteji veraberyal infoyi funkcian, heto 0-n cuyc atalis vor arajin platejna. sa tx chi ayl call a dra hamar await chenq asum
+        const newPayment = await payments.getPayment(acc2.address, 0)
+        expect(newPayment.message).to.eq(msg) //stugum enq msgy hasnum a te che
+        expect(newPayment.amount).to.eq(sum)  //stugum enq poghy hasnum a te che
+        expect(newPayment.from).to.eq(acc2.address) //stugum enq hascen chisht a te che
+        //console.log(newPayment) // prosto sagh texty berum er
     })
 
 })
