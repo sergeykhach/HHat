@@ -14,3 +14,4 @@
  1954  git add .
  1955  git commit -m "1. "
  1956  git remote add origin https://github.c...............git
+ git push -u origin main
