@@ -1,10 +1,10 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/mnt/d/Avet/css/hardhat5/contracts/Payments.sol": {
-      "lastModificationDate": 1677062992470,
-      "contentHash": "cd1ee4046ca47dd58c95a90f0c6127c4",
-      "sourceName": "contracts/Payments.sol",
+    "/mnt/d/Avet/css/hardhat5/contracts/Demo.sol": {
+      "lastModificationDate": 1677149782580,
+      "contentHash": "1146a464ffa6e305af5ddd6ffda8324f",
+      "sourceName": "contracts/Demo.sol",
       "solcConfig": {
         "version": "0.8.17",
         "settings": {
@@ -33,7 +33,7 @@
         "^0.8.0"
       ],
       "artifacts": [
-        "Payments"
+        "Demo"
       ]
     }
   }
