@@ -1,0 +1,16 @@
+    npm init -y
+
+ 1943  cd hardhat5/
+ 1944  npm install --save-dev hardhat
+ 1945  npx hardhat
+ 1946  sudo pro status
+ 1947  cd hardhat5/
+ 1948  npm install --save-dev chai @nomiclabs/hardhat-waffle
+ 1949  npx hardhat compile
+ 1950  npx hardhat clean           maqruma sagh ayd tvum artifacty
+ 1951  npx hardhat compile
+ 1952  npx hardhat test
+ 1953  git init
+ 1954  git add .
+ 1955  git commit -m "1. "
+ 1956  git remote add origin https://github.c...............git
