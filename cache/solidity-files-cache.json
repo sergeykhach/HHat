@@ -1,0 +1,40 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "/mnt/d/Avet/css/hardhat5/contracts/AucEngine.sol": {
+      "lastModificationDate": 1677241148531,
+      "contentHash": "9cd2b0e5710efc09ec13d7dd2777a61c",
+      "sourceName": "contracts/AucEngine.sol",
+      "solcConfig": {
+        "version": "0.8.17",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "AucEngine"
+      ]
+    }
+  }
+}
