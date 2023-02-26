@@ -26,3 +26,4 @@ contract Ownable {
         payable(owner).transfer(address(this).balance);
     }
 }
+//iskakan
