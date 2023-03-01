@@ -15,3 +15,30 @@
  1955  git commit -m "1. "
  1956  git remote add origin https://github.c...............git
  git push -u origin main
+
+ takiny das 14
+
+ 1947  npx create-next-app@latest
+ 1948  cd next/
+ 1949  npm install ethers
+ 1950  npm uninstall ethers
+ 1951  cd ..
+ 1952  cd hardhat5/
+ 1953  npx hardhat run scripts/deploy.js --network localhost
+ 1954  npx create-next-app@latest
+ 1955  npx hardhat clean
+ 1956  cd hardhat5/
+ 1957  npx hardhat clean
+ 1958  npx hardhat node
+ 1959  cd hardhat5/
+ 1960  npx hardhat node
+ 1961  cd hardhat5/
+ 1962  npx create-next-app@latest
+ 1963  cd front/
+ 1964  npm install ethers
+ 1965  npx hardhat clean
+ 1966  cd hardhat5/
+ 1967  npx hardhat run scripts/deploy.js --network localhost
+ 1968  cd front/
+ 1969  npm run dev
+ 1970  history

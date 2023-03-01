@@ -1,31 +1,73 @@
-// We require the Hardhat Runtime Environment explicitly here. This is optional
-// but useful for running the script in a standalone fashion through `node <script>`.
-//
-// You can also run a script with `npx hardhat run <script>`. If you do that, Hardhat
-// will compile your contracts, add the Hardhat Runtime Environment's members to the
-// global scope, and execute the script.
-const hre = require("hardhat");
+const hre = require('hardhat');
+const ethers = hre.ethers;
+const fs = require('fs');
+const path = require('path');
 
-async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
+async function main() {  // stegh karanq mi angmaic shat contract deploy anenq***
+  if (network.name === "hardhat") { // uzum enq hardhati teghy local host ogtagorcenq, vor amen anjateluc chjnjvi
+    console.warn(
+      "You are trying to deploy a contract to the Hardhat Network, which" +
+        "gets automatically created and destroyed every time. Use the Hardhat" +
+        " option '--network localhost'"
+    );
+  }
 
-  const lockedAmount = hre.ethers.utils.parseEther("1");
+  const [deployer] = await ethers.getSigners()  // hashivnery
 
-  const Lock = await hre.ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+  console.log("Deploying with", await deployer.getAddress()) //hascen enq vercnum vortegh deploy a anum
 
-  await lock.deployed();
+  const DutchAuction = await ethers.getContractFactory("DutchAuction", deployer) //contracty vori het uzum enq ashxatenq compile 
+  const auction = await DutchAuction.deploy(
+    ethers.utils.parseEther('2.0'),
+    1,
+    "Motorbike"
+  ) // deploy enq anum 3 arg-erov vonc constructori mej
+  await auction.deployed() //spasum enq deploy lini 
 
-  console.log(
-    `Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
-  );
+  //*** hetkaranq stegh poxancenq 
+// stegh asum em vor mer deploy arac smart contracty stegh a  u ira hamapatasxan obyekty edauction popoxakani mej a
+  saveFrontendFiles({
+    DutchAuction: auction
+  })
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+// sa chisht copya anelu en faylery vornq menq uzum enq copy anenq frontendi hamar
+ 
+function saveFrontendFiles(contracts) {
+  const contractsDir = path.join(__dirname, '/..', 'front/contracts') //pahum enq aystegh
+
+  if(!fs.existsSync(contractsDir)) { //ete chka sarqi direktoryn
+    fs.mkdirSync(contractsDir)
+  }
+
+  //dimum enq bolor contractnerin, contract item u dranic khanenq klyuch u znacheniyan
+  Object.entries(contracts).forEach((contract_item) => {
+    const [name, contract] = contract_item // es depqum name : duchauctin, contract: auction
+
+    if(contract) { // stugum eq ete smart c ka u sxal chi eghel
+//kopit asac taki mej hascena
+      fs.writeFileSync(
+        path.join(contractsDir, '/', name + '-contract-address.json'), //sarqac diri mej faylll kdnenq es anunov, vori mrj hascen kdnenq mer henc nor deploy arac contracti hascen
+        JSON.stringify({[name]: contract.address}, undefined, 2) // stegh ed fayli  mej henc hascen grum enq
+      )
+    }
+
+    const ContractArtifact = hre.artifacts.readArtifactSync(name) //stanum enq smart contracti artifacty (compile arac)
+// sra mej el abi-n
+    // noric ksarqenq fayl SC-anuny . JSOn u 
+    fs.writeFileSync( 
+      path.join(contractsDir, '/', name + ".json"),
+      JSON.stringify(ContractArtifact, null, 2) //dra mej kdnenq artifacti parunakututyuny 
+    )
+  })
+}
+
+// kanchum enq mainy
+main()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(error)
+    process.exit(1)
+  })
+
+  // ka patrast smart contracneri deploy fronti hamar
