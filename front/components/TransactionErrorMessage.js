@@ -1,7 +1,7 @@
-export function NetworkErrorMessage({ message, dismiss }) {
+export function TransactionErrorMessage({ message, dismiss }) {
   return (
     <div>
-      {message}
+      TX error: {message}
       <button type="button" onClick={dismiss}>
         <span aria-hidden="true">&times;</span>
       </button>
