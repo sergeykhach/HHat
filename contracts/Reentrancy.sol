@@ -5,14 +5,28 @@ pragma solidity ^0.8.0;
 //sovorakan aukcion
 contract ReentrancyAuction {
     mapping(address => uint) public bidders; // ov a anum stavka inch poghov
+    bool locked; //default false  avelacrel enq pashtpanelu
+
     //stavka anelu funkcia, amen angam stavka anighi hascen dnum enq mapingi mej, stavki chapov avelacnelov eghac gumary
     function bid() external payable {
         bidders[msg.sender] += msg.value;
     }
-//SA ANPashtpan contractI tipik orinak a
+
+// ays modifaery himnakan pashtpanna vory arajin angamaic heto el chi toghnum mtnel, dnum enq refund funkciayi vra
+    modifier noReentrancy() { 
+        require(!locked, "no reentrancy!"); //arajin ok
+        locked = true; //miangamic poxum enq el chi ancni ete daje rekursia lin
+        _; // anum enq funkcian refundy es depqum
+        locked = false; // u miangamic eli false enq sarqum
+    }
+
+    // pull
+
+
+//SA OpenZEPi-nman mekhanizmov(locked) Pashtpanvac contractI tipik orinak a
 // funkcia vor veradardznum a chkrac stavkanery ugharkoghnerin
 //inch linum a stegh a linum 
-    function refund() external { 
+    function refund() external noReentrancy { 
         uint refundAmount = bidders[msg.sender]; // prosto mappingic hanum enq stavki chapy konkret hascei hamar
 
         if (refundAmount > 0) { //asum enq ete stavka ka
