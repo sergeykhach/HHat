@@ -16,11 +16,12 @@ contract ReentrancyAuction {
         uint refundAmount = bidders[msg.sender]; // prosto mappingic hanum enq stavki chapy konkret hascei hamar
 
         if (refundAmount > 0) { //asum enq ete stavka ka
+            bidders[msg.sender] = 0; //sranov pashtpanum enq skzbic zroyacnum enq heto poxancum enq u hajord kancheluc arden oya cuyc talis
             (bool success,) = msg.sender.call{value: refundAmount}("");// nizkaurovnevi zapros enq ugharkum minchev hajogh linely, vortegh soobsheni chka ayl miayn gumarn enq poxancum en chapov vor stavk a arel, aranc nshelu poghy stanalu konkret funkcian
 
             require(success, "failed");  // pahanjum enq vor hajogh lini hakarak depqum asum enq failed
 
-            bidders[msg.sender] = 0;     // oyacnum enq mappingum tvyal hascei gumary
+            //bidders[msg.sender] = 0;     // oyacnum enq mappingum tvyal hascei gumary
         }
 
     }
