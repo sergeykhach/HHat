@@ -16,19 +16,27 @@
  1956  git remote add origin https://github.c...............git
  git push -u origin main
 
- takiny das 16 reentrancy
+ takiny das 16 dos
 
  npx hardhat clean
  npx hardhat node
- npx hardhat run scripts/reentrancy.js --network localhost
+ npx hardhat run scripts/dos.js --network localhost
  npx create-next-app@latest
 
-runi ardyunqy
+runi ardyunqy kaxuma u voch mi vcharum bideri het veradardzi tesqov chii anum
 
+npx hardhat run scripts/dos.js --network localhost
 Compiled 1 Solidity file successfully
-Auction balance BigNumber { value: "13000000000000000000" }
-Auction balance BigNumber { value: "1000000000000000000" }
-Attacker balance BigNumber { value: "12000000000000000000" }
-serius@DESKTOP-P49S5LU:/mnt/d/Avet/css/hardhat5$ 063361315" }
-
+Auction balance BigNumber { value: "11000000000000000050" }HeadersTimeoutError: Headers Timeout Error
+    at Timeout.onParserTimeout [as callback] (/mnt/d/Avet/css/hardhat5/node_modules/undici/lib/client.js:916:28)      
+    at Timeout.onTimeout [as _onTimeout] (/mnt/d/Avet/css/hardhat5/node_modules/undici/lib/timers.js:18:13)
+    at listOnTimeout (node:internal/timers:569:17)
+    at processTimers (node:internal/timers:512:7) {        
+Refund progress BigNumber { value: "0" }
+User 1 balance BigNumber { value: "9994999570606983433414" 
+}
+Hacker balance BigNumber { value: "9999999750270150900028" 
+}
+User 2 balance BigNumber { value: "9993999963367362262874" 
+}
  
