@@ -9,6 +9,8 @@ contract DosAuction {
 
 //podxod push stegh contracty het a ugharkim bidery aranc zaprosi
     function bid() external payable {
+        // karanq voch nadeni senc el pashtpanvenq ibr bayc 100%anoc chi
+        //require(msg.sender.code.length == 0, "no contracts");
         bidders[msg.sender] += msg.value;
         allBidders.push(msg.sender);
     }
@@ -18,8 +20,12 @@ contract DosAuction {
             address bidder = allBidders[i];
 
             (bool success,) = bidder.call{value: bidders[bidder]}("");//tenum enq inchqan a mapingum bid arel u nizkourovneviy zapros enq anum poghi valueov
-            require(success, "failed!"); //ay es succes i patcharo
-
+            //require(success, "failed!"); //ay es succes i patcharo
+            //verevini poxaren lucman tarberakneric meky takinna fail eghac addresnery pahenq failedRefunds massivner
+            if(!success){
+                //mi hat ayl massivi mej pahenq
+               // failedRefunds.push(bidder)
+            }
             refundProgress++;
         }
     }
