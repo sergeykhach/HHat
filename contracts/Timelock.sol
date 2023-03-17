@@ -4,18 +4,35 @@ pragma solidity ^0.8.0;
 
 // hramannery sharum enq herti, hanum enq enq hertic, irakanacnum enq hamapatasxan funkciayov
 //msg-ov ev data- yov
+//avelacnum enq multisign aysinqn steghcum enq mi qani owner u dnum enq qvearkutyan ardyoq arvi ed tranzakcian 
+// timelocki mej te che, amboghj mekhanizmna verjnakan chi...24das
+
 contract Timelock {
     uint constant MINIMUM_DELAY = 10;
     uint constant MAXIMUM_DELAY = 1 days;
     uint constant GRACE_PERIOD = 1 days;
-    address public owner;
+    address[] public owners;
+    mapping(address => bool) public isOwner;
     string public message;
     uint public amount;
+    uint public constant CONFIRMATIONS_REQUIRED = 3;
+
+    struct Transaction {
+        bytes32 uid;
+        address to;
+        uint value;
+        bytes data;
+        bool executed;
+        uint confirmations;
+    }
+    mapping(bytes32 => Transaction) public txs;
+
+    mapping(bytes32 => mapping(address => bool)) public confirmations;
 
     mapping(bytes32 => bool) public queue;
 
     modifier onlyOwner() {
-        require(msg.sender == owner, "not an owner!");
+        require(isOwner[msg.sender], "not an owner!");
         _;
     }
 
@@ -23,8 +40,18 @@ contract Timelock {
     event Discarded(bytes32 txId);
     event Executed(bytes32 txId);
 
-    constructor() {
-        owner = msg.sender;
+    constructor(address[] memory _owners) {
+        require(_owners.length >= CONFIRMATIONS_REQUIRED, "not enough owners!");
+
+        for(uint i = 0; i < _owners.length; i++) {
+            address nextOwner = _owners[i];
+
+            require(nextOwner != address(0), "cant have zero address as owner!");
+            require(!isOwner[nextOwner], "duplicate owner!");
+
+            isOwner[nextOwner] = true;
+            owners.push(nextOwner);
+        }
     }
 
     function demo(string calldata _msg) external payable {
@@ -64,9 +91,38 @@ contract Timelock {
 
         queue[txId] = true;
 
+        txs[txId] = Transaction({
+            uid: txId,
+            to: _to,
+            value: _value,
+            data: _data,
+            executed: false,
+            confirmations: 0
+        });
+
         emit Queued(txId);
 
         return txId;
+    }
+
+    function confirm(bytes32 _txId) external onlyOwner {
+        require(queue[_txId], "not queued!");
+        require(!confirmations[_txId][msg.sender], "already confirmed!");
+
+        Transaction storage transaction = txs[_txId];
+
+        transaction.confirmations++;
+        confirmations[_txId][msg.sender] = true;
+    }
+
+
+    function cancelConfirmation(bytes32 _txId) external onlyOwner {
+        require(queue[_txId], "not queued!");
+        require(confirmations[_txId][msg.sender], "not confirmed!");
+
+        Transaction storage transaction = txs[_txId];
+        transaction.confirmations--;
+        confirmations[_txId][msg.sender] = false;
     }
 
     function execute(
@@ -95,7 +151,13 @@ contract Timelock {
 
         require(queue[txId], "not queued!");
 
+        Transaction storage transaction = txs[txId];
+
+        require(transaction.confirmations >= CONFIRMATIONS_REQUIRED, "not enough confirmations!");
+
         delete queue[txId];
+
+        transaction.executed = true;
 
         bytes memory data;
         if(bytes(_func).length > 0) {
