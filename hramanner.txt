@@ -3,7 +3,7 @@
  1943  cd hardhat5/
  1944  npm install --save-dev hardhat
  1945  npx hardhat
- 1946  sudo pro status
+ 
  1947  cd hardhat5/
  1948  npm install --save-dev chai @nomiclabs/hardhat-waffle
  1949  npx hardhat compile
@@ -26,17 +26,3 @@
 runi ardyunqy kaxuma u voch mi vcharum bideri het veradardzi tesqov chii anum
 
 npx hardhat run scripts/dos.js --network localhost
-Compiled 1 Solidity file successfully
-Auction balance BigNumber { value: "11000000000000000050" }HeadersTimeoutError: Headers Timeout Error
-    at Timeout.onParserTimeout [as callback] (/mnt/d/Avet/css/hardhat5/node_modules/undici/lib/client.js:916:28)      
-    at Timeout.onTimeout [as _onTimeout] (/mnt/d/Avet/css/hardhat5/node_modules/undici/lib/timers.js:18:13)
-    at listOnTimeout (node:internal/timers:569:17)
-    at processTimers (node:internal/timers:512:7) {        
-Refund progress BigNumber { value: "0" }
-User 1 balance BigNumber { value: "9994999570606983433414" 
-}
-Hacker balance BigNumber { value: "9999999750270150900028" 
-}
-User 2 balance BigNumber { value: "9993999963367362262874" 
-}
- 
